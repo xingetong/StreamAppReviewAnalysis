@@ -8,7 +8,7 @@ from dateutil import parser as date_parser
 from sklearn.metrics.pairwise import cosine_similarity
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain.llms import HuggingFacePipeline
