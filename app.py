@@ -14,8 +14,14 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain.llms import HuggingFacePipeline
 import streamlit as st
 
+
+
+import os
 from huggingface_hub import login
-login(token="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")
+
+token = os.environ.get("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")
+login(token=token)
+
 
 
 def parse_time_column(df, time_col='time'):
