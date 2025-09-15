@@ -1,7 +1,5 @@
 streamlit==1.34.0
 
-faiss-cpu
-langchain
 scikit-learn
 streamlit>=1.34.0
 transformers>=4.42.0
