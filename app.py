@@ -15,7 +15,7 @@ from langchain.llms import HuggingFacePipeline
 import streamlit as st
 
 from huggingface_hub import login
-login(token="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")
+login(token="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")
 
 
 def parse_time_column(df, time_col='time'):
