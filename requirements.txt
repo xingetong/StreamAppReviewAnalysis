@@ -1,0 +1,8 @@
+streamlit
+pandas
+transformers
+torch
+faiss-cpu
+sentence-transformers
+langchain
+scikit-learn
