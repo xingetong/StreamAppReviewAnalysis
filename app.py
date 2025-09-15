@@ -15,7 +15,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from langchain.llms import HuggingFacePipeline
 import streamlit as st
 
 
@@ -23,7 +22,7 @@ import streamlit as st
 import os
 from huggingface_hub import login
 
-token = os.environ.get("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")
+token = os.environ.get("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")
 login(token=token)
 
 
