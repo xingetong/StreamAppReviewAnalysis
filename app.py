@@ -23,7 +23,7 @@ import streamlit as st
 import os
 from huggingface_hub import login
 
-token = os.environ.get("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")
+token = os.environ.get("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")
 login(token=token)
 
 
