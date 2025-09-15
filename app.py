@@ -1,3 +1,5 @@
+pip install -r requirements.txt
+
 import re
 import ast
 import numpy as np
@@ -5,9 +7,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from dateutil import parser as date_parser
-
 from sklearn.metrics.pairwise import cosine_similarity
-
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS

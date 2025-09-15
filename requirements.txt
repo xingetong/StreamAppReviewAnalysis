@@ -6,3 +6,20 @@ faiss-cpu
 sentence-transformers
 langchain
 scikit-learn
+
+# Web app
+streamlit>=1.34.0
+
+# Core ML/NLP
+transformers>=4.42.0
+torch>=2.2.0
+sentence-transformers>=2.7.0
+
+# LangChain ecosystem
+langchain>=0.2.0
+langchain-huggingface>=0.0.8
+faiss-cpu>=1.8.0
+
+# Utilities
+pandas>=2.2.0
+python-dateutil>=2.9.0
