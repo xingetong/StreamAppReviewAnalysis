@@ -244,7 +244,7 @@ def build_retriever(chunks, k=5):
     vectorstore = FAISS.from_documents(chunks, embedding_model)
     return vectorstore.as_retriever(search_kwargs={"k": k})
 
-@st.cache_resource
+@st.cache(allow_output_mutation=True)
 def load_llm():
     model_name = "mistralai/Mistral-7B-Instruct-v0.3"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
