@@ -1,5 +1,3 @@
-pip install -r requirements.txt
-
 import re
 import ast
 import numpy as np
