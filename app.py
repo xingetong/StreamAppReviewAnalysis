@@ -28,7 +28,7 @@ def parse_time_column(df, time_col='time'):
     return df
 
 
-    def interpret_date_filter_from_question(question, reference_date=None):
+def interpret_date_filter_from_question(question, reference_date=None):
     q = (question or '').lower()
     if reference_date is None:
         reference_date = datetime.now()
@@ -90,6 +90,10 @@ def parse_time_column(df, time_col='time'):
             pass
 
     return None, None
+
+
+
+
 
 
 def filter_df_by_date(df, start=None, end=None, time_col='time'):
