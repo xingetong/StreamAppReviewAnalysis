@@ -219,14 +219,16 @@ def load_llm():
     """Load and cache the Mistral LLM via HuggingFace Inference API"""
     token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-    model_name = "google/flan-t5-base"
+    # work but not full content # model_name = "google/flan-t5-base"
+    model_name = "google/flan-t5-large"
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
             "text-generation",
             model=model_name,
             token=token,  # This is the HuggingFace access token from secrets
-            max_new_tokens=5512
+            max_new_tokens=768,
+            return_full_text=True
         )
         return HuggingFacePipeline(pipeline=pipe)
 
@@ -284,7 +286,7 @@ Please provide:
 2. Key praises (if any, 2-3 bullet points)
 3. Brief summary
 
-Be concise and specific."""
+Be concise, specific, and neutral in tone."""
     
     full_prompt = system_prompt + "\n\n" + user_prompt
     response = llm.invoke(full_prompt)
@@ -304,7 +306,7 @@ def main():
     # Sidebar for configuration
     with st.sidebar:
         st.header("⚙️ Configuration")
-        st.info("Using Mistral-7B-Instruct model with FAISS retrieval")
+        st.info("Using Flan-t5-base model with FAISS retrieval")
         
         # Token status
         try:
