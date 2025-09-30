@@ -220,7 +220,7 @@ def load_llm():
     token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
     # work but not full content # model_name = "google/flan-t5-base"
-    model_name = "google/flan-ul2"
+    model_name = "google/flan-t5-base"
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
