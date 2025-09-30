@@ -225,8 +225,8 @@ def load_llm():
         pipe = pipeline(
             "text-generation",
             model=model_name,
-            token=token,  # This is the HuggingFace access token from secrets
-            max_new_tokens=768
+            token=token, 
+            max_new_tokens=512
         )
         return HuggingFacePipeline(pipeline=pipe)
 
