@@ -219,12 +219,11 @@ def load_llm():
     """Load and cache the Mistral LLM via HuggingFace Inference API"""
     token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-    # work but not full content # model_name = "google/flan-t5-base"
-    model_name = "google/flan-t5-base"
+    model_name = "google/flan-t5-small"
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
-            "text2text-generation",
+            "text-generation",
             model=model_name,
             token=token,  # This is the HuggingFace access token from secrets
             max_new_tokens=768
