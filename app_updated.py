@@ -273,16 +273,16 @@ def answer_question(question, chunks, embedding_model, llm):
     context = "\n\n".join([f"Review {i+1}: {d.page_content[:300]}" 
                            for i, d in enumerate(retrieved_docs)])
     
-    system_prompt = "You are a helpful assistant summarizing player feedback for game developers."
+    system_prompt = "You are a helpful assistant summarizing player feedback and identifying players' preferences for game developers."
     user_prompt = f"""Question: {question}
 Date Range: {date_info}
 Relevant reviews:{context}
 Please provide:
-1. Main complaints (3-5 bullet points)
-2. Key praises (if any, 2-3 bullet points)
+1. Key praises (2-3 bullet points)
+2. Main complaints (if any, 2-3 bullet points)
 3. Brief summary
 
-Be concise, specific.
+Be concise and specific.
 """
     
     full_prompt = system_prompt + "\n\n" + user_prompt
