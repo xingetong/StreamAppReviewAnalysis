@@ -227,7 +227,8 @@ def load_llm():
             "text-generation",
             model=model_name,
             token=token, 
-            max_new_tokens=512
+            max_new_tokens=512,
+            trust_remote_code=True
         )
         return HuggingFacePipeline(pipeline=pipe)
 
