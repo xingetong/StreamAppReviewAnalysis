@@ -219,7 +219,7 @@ def load_llm():
     """Load and cache the Mistral LLM via HuggingFace Inference API"""
     token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-    model_name = "meta-llama/Llama-3.2-3B-Instruct"
+    model_name = "mistralai/Magistral-Small-2509"
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
