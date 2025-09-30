@@ -185,11 +185,27 @@ class HuggingFaceInferenceAPI:
             try:
                 response = requests.post(self.api_url, headers=self.headers, json=payload, timeout=60)
                 
+                # Debug: show raw response
                 if response.status_code == 200:
-                    result = response.json()
-                    if isinstance(result, list) and len(result) > 0:
-                        return result[0].get("generated_text", "")
-                    return str(result)
+                    try:
+                        result = response.json()
+                        
+                        # Handle different response formats
+                        if isinstance(result, list) and len(result) > 0:
+                            generated = result[0].get("generated_text", "")
+                            return generated if generated else str(result)
+                        elif isinstance(result, dict):
+                            # Try different keys
+                            for key in ["generated_text", "text", "output"]:
+                                if key in result:
+                                    return result[key]
+                            return str(result)
+                        else:
+                            return str(result)
+                    
+                    except requests.exceptions.JSONDecodeError:
+                        # Response is not JSON
+                        return f"⚠️ Unexpected response format:\n{response.text[:500]}"
                 
                 elif response.status_code == 503:
                     # Model is loading
@@ -201,9 +217,19 @@ class HuggingFaceInferenceAPI:
                     else:
                         return "⚠️ Model is still loading. Please try again in a moment."
                 
+                elif response.status_code == 401:
+                    return "❌ Authentication failed. Please check your HuggingFace token."
+                
+                elif response.status_code == 403:
+                    return "❌ Access denied. This model may require approval or be gated."
+                
                 else:
-                    error_msg = response.json().get("error", "Unknown error")
-                    return f"❌ API Error: {error_msg}"
+                    try:
+                        error_data = response.json()
+                        error_msg = error_data.get("error", str(error_data))
+                    except:
+                        error_msg = response.text[:500]
+                    return f"❌ API Error ({response.status_code}): {error_msg}"
                     
             except requests.exceptions.Timeout:
                 if attempt < max_retries - 1:
@@ -213,7 +239,7 @@ class HuggingFaceInferenceAPI:
                 return "⚠️ Request timeout. Please try again."
             
             except Exception as e:
-                return f"❌ Error: {str(e)}"
+                return f"❌ Error: {str(e)}\nDebug: Response status {response.status_code if 'response' in locals() else 'N/A'}"
         
         return "⚠️ Failed after multiple attempts. Please try again later."
 
