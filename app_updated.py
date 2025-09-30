@@ -1,4 +1,3 @@
-
 import re
 import ast
 import numpy as np
@@ -16,17 +15,27 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
 import os
 
+
+# ============================================
+# CONFIGURATION - Use Streamlit Secrets
+# ============================================
 def get_hf_token():
+    """Get HuggingFace token from Streamlit secrets or environment"""
     try:
-        return st.secrets["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"]
+        # Try Streamlit secrets first (recommended for Streamlit Cloud)
+        return st.secrets["HUGGINGFACE_TOKEN"]
     except (KeyError, FileNotFoundError):
-        token = os.environ.get("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")
+        # Fallback to environment variable
+        token = os.environ.get("HUGGINGFACE_TOKEN")
         if not token:
             st.error("⚠️ HuggingFace token not found! Please add it to Streamlit secrets.")
             st.stop()
         return token
 
 
+# ============================================
+# DATE PARSING FUNCTIONS
+# ============================================
 def parse_time_column(df, time_col='time'):
     df = df.copy()
     if time_col not in df.columns:
@@ -113,6 +122,9 @@ def filter_df_by_date(df, start=None, end=None, time_col='time'):
     return df.loc[mask].copy()
 
 
+# ============================================
+# ANALYSIS FUNCTIONS
+# ============================================
 def top_topics_by_sentiment(df, topic_col='topic_label', sentiment_col='sentiment', top_k=10):
     total = df.groupby(topic_col).size().rename('total_count')
     neg = df[df[sentiment_col]=='negative'].groupby(topic_col).size().rename('negative_count')
@@ -174,25 +186,31 @@ def filter_chunks_by_date(chunks, start, end):
     return filtered
 
 
+# ============================================
+# MODEL LOADING (CACHED)
+# ============================================
 @st.cache_resource
 def load_embedding_model():
     """Load and cache the embedding model"""
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
-@st.cache_resource  
+@st.cache_resource
 def load_llm():
+    """Load and cache the LLM model"""
     token = get_hf_token()
     model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-    tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name, 
-        device_map="auto",
-        token=token,
-        load_in_8bit=True
-    )
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
-    return HuggingFacePipeline(pipeline=pipe)
+    
+    with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name, 
+            device_map="auto",
+            token=token,
+            load_in_8bit=True  # Use 8-bit quantization to reduce memory
+        )
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+        return HuggingFacePipeline(pipeline=pipe)
 
 
 @st.cache_data
@@ -201,6 +219,9 @@ def load_data():
     return pd.read_csv("data/review_dataset.csv")
 
 
+# ============================================
+# RAG FUNCTIONS
+# ============================================
 def build_retriever(chunks, embedding_model, k=5):
     """Build FAISS retriever from chunks"""
     vectorstore = FAISS.from_documents(chunks, embedding_model)
@@ -252,6 +273,10 @@ Be concise and specific."""
     
     return response
 
+
+# ============================================
+# STREAMLIT UI
+# ============================================
 def main():
     st.set_page_config(page_title="Game Review Q&A", page_icon="🎮", layout="wide")
     
