@@ -289,13 +289,13 @@ def main():
         st.header("⚙️ Configuration")
         st.info("Using Mistral-7B-Instruct model with FAISS retrieval")
         
-        # Token status
-        try:
-            token = get_hf_token()
-            st.success("✅ HuggingFace token loaded")
-        except Exception as e:
-            st.error(f"❌ Token error: {e}")
-            st.stop()
+        # # Token status
+        # try:
+        #     token = get_hf_token()
+        #     st.success("✅ HuggingFace token loaded")
+        # except Exception as e:
+        #     st.error(f"❌ Token error: {e}")
+        #     st.stop()
     
     # Load models and data
     try:
