@@ -208,7 +208,7 @@ def load_llm():
             model_name, 
             device_map="auto",
             token=token
-            # load_in_8bit=True  # Use 8-bit quantization to reduce memory
+            load_in_4bit=True 
         )
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
         return HuggingFacePipeline(pipeline=pipe)
