@@ -196,21 +196,37 @@ def load_embedding_model():
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
+# @st.cache_resource
+# def load_llm():
+#     """Load and cache the LLM model"""
+#     token = get_hf_token()
+#     model_name = "mistralai/Mistral-7B-Instruct-v0.3"
+    
+#     with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
+#         tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
+#         model = AutoModelForCausalLM.from_pretrained(
+#             model_name, 
+#             device_map="auto",
+#             token=token,
+#             load_in_4bit=True 
+#         )
+#         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+#         return HuggingFacePipeline(pipeline=pipe)
+
+
 @st.cache_resource
 def load_llm():
-    """Load and cache the LLM model"""
+    """Load and cache the Mistral LLM via HuggingFace Inference API"""
     token = get_hf_token()
     model_name = "mistralai/Mistral-7B-Instruct-v0.3"
     
-    with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            device_map="auto",
-            token=token,
-            load_in_4bit=True 
+    with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
+        pipe = pipeline(
+            "text-generation",
+            model=model_name,
+            token=token,  # This is the HuggingFace access token from secrets
+            max_new_tokens=512
         )
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
         return HuggingFacePipeline(pipeline=pipe)
 
 
