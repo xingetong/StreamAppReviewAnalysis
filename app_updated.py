@@ -199,7 +199,8 @@ def load_embedding_model():
 def load_llm():
     """Load and cache the LLM model"""
     token = get_hf_token()
-    model_name = "mistralai/Mistral-7B-Instruct-v0.3"
+    # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
+    model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     
     with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
         tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
