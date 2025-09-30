@@ -228,7 +228,10 @@ def load_llm():
             model=model_name,
             token=token,  # This is the HuggingFace access token from secrets
             max_new_tokens=768,
-            return_full_text=True
+            do_sample=True,        # enable sampling instead of greedy
+            temperature=0.7,       # add some randomness
+            top_p=0.9,             # nucleus sampling
+            return_full_text=False
         )
         return HuggingFacePipeline(pipeline=pipe)
 
