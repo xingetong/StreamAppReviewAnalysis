@@ -180,22 +180,19 @@ def load_embedding_model():
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
-@st.cache_resource
+@st.cache_resource  
 def load_llm():
-    """Load and cache the LLM model"""
     token = get_hf_token()
     model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-    
-    with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            device_map="auto",
-            token=token,
-            load_in_8bit=True  # Use 8-bit quantization to reduce memory
-        )
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
-        return HuggingFacePipeline(pipeline=pipe)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name, 
+        device_map="auto",
+        token=token,
+        load_in_8bit=True
+    )
+    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+    return HuggingFacePipeline(pipeline=pipe)
 
 
 @st.cache_data
