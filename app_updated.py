@@ -20,13 +20,12 @@ import os
 # CONFIGURATION - Use Streamlit Secrets
 # ============================================
 def get_hf_token():
-    """Get HuggingFace token from Streamlit secrets or environment"""
     try:
-        # Try Streamlit secrets first (recommended for Streamlit Cloud)
-        return st.secrets["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"]
+        return st.secrets["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"]
     except (KeyError, FileNotFoundError):
         # Fallback to environment variable
-        token = os.environ.get("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")
+        hf_token = st.secrets["HUGGINGFACE_TOKEN"]["token"]
+        token = os.environ["HUGGINGFACE_TOKEN"]
         if not token:
             st.error("⚠️ HuggingFace token not found! Please add it to Streamlit secrets.")
             st.stop()
