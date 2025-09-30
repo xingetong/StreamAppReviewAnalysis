@@ -227,10 +227,7 @@ def load_llm():
             "text2text-generation",
             model=model_name,
             token=token,  # This is the HuggingFace access token from secrets
-            max_new_tokens=768,
-            do_sample=True,        # enable sampling instead of greedy
-            temperature=0.7,       # add some randomness
-            top_p=0.9             # nucleus sampling
+            max_new_tokens=768
         )
         return HuggingFacePipeline(pipeline=pipe)
 
