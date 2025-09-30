@@ -223,7 +223,7 @@ def load_llm():
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
-            "text-generation",
+            "text2text-generation",
             model=model_name,
             token=token,  # This is the HuggingFace access token from secrets
             max_new_tokens=768
