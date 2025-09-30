@@ -15,24 +15,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
 import os
 
-
-# ============================================
-# CONFIGURATION - Use Streamlit Secrets
-# ============================================
-# def get_hf_token():
-#     """Get HuggingFace token from Streamlit secrets or environment"""
-#     try:
-#         # Try Streamlit secrets first (recommended for Streamlit Cloud)
-#         return st.secrets["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"]
-#     except (KeyError, FileNotFoundError):
-#         # Fallback to environment variable
-#         token = os.environ.get("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")
-#         if not token:
-#             st.error("⚠️ HuggingFace token not found! Please add it to Streamlit secrets.")
-#             st.stop()
-#         return token
-
-
 # ============================================
 # DATE PARSING FUNCTIONS
 # ============================================
@@ -198,16 +180,18 @@ def load_embedding_model():
 @st.cache_resource
 def load_llm():
     """Load and cache the LLM model"""
-    token = get_hf_token()
+    # token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
     model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     
-    with st.spinner("🔄 Loading Mistral model... This may take a few minutes..."):
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
+    with st.spinner("🔄 Loading TinyLlama model... This may take a few minutes..."):
+        # tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+
         model = AutoModelForCausalLM.from_pretrained(
             model_name, 
             device_map="auto",
-            token=token,
+            # token=token,
             load_in_8bit=True  # Use 8-bit quantization to reduce memory
         )
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
@@ -289,14 +273,7 @@ def main():
         st.header("⚙️ Configuration")
         st.info("Using Mistral-7B-Instruct model with FAISS retrieval")
         
-        # # Token status
-        # try:
-        #     token = get_hf_token()
-        #     st.success("✅ HuggingFace token loaded")
-        # except Exception as e:
-        #     st.error(f"❌ Token error: {e}")
-        #     st.stop()
-    
+   
     # Load models and data
     try:
         with st.spinner("Loading data and models..."):
