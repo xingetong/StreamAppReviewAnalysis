@@ -9,7 +9,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+# from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
@@ -173,7 +174,6 @@ def filter_chunks_by_date(chunks, start, end):
 # ============================================
 @st.cache_resource
 def load_embedding_model():
-    """Load and cache the embedding model"""
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
@@ -192,7 +192,7 @@ def load_llm():
             model_name, 
             device_map="auto",
             # token=token,
-            load_in_8bit=True  # Use 8-bit quantization to reduce memory
+            # load_in_8bit=True  # Use 8-bit quantization to reduce memory
         )
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
         return HuggingFacePipeline(pipeline=pipe)
