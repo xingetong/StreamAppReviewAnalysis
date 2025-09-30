@@ -276,7 +276,9 @@ def answer_question(question, chunks, embedding_model, llm):
     system_prompt = "You are a helpful assistant summarizing player feedback and identifying players' preferences for game developers."
     user_prompt = f"""Question: {question}
 Date Range: {date_info}
+
 Relevant reviews:{context}
+
 Please provide:
 1. Key praises (2-3 bullet points)
 2. Main complaints (if any, 2-3 bullet points)
