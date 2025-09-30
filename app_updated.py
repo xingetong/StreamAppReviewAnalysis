@@ -207,7 +207,7 @@ def load_llm():
         model = AutoModelForCausalLM.from_pretrained(
             model_name, 
             device_map="auto",
-            token=token
+            token=token,
             load_in_4bit=True 
         )
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
