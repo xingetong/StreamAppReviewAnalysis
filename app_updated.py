@@ -220,15 +220,14 @@ def load_llm():
     token = get_hf_token()
     # model_name = "mistralai/Mistral-7B-Instruct-v0.3"
     # model_name = "google/flan-t5-base"
-    model_name = "HuggingFaceH4/zephyr-7b-beta"
+    model_name = "facebook/bart-large-cnn"
     
     with st.spinner("🔄 Connecting to Mistral model via HuggingFace Inference API..."):
         pipe = pipeline(
             "text-generation",
             model=model_name,
             token=token, 
-            max_new_tokens=512,
-            trust_remote_code=True
+            max_new_tokens=512
         )
         return HuggingFacePipeline(pipeline=pipe)
 
