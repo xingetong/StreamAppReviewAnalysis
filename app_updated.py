@@ -230,8 +230,7 @@ def load_llm():
             max_new_tokens=768,
             do_sample=True,        # enable sampling instead of greedy
             temperature=0.7,       # add some randomness
-            top_p=0.9,             # nucleus sampling
-            return_full_text=False
+            top_p=0.9             # nucleus sampling
         )
         return HuggingFacePipeline(pipeline=pipe)
 
