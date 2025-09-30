@@ -285,7 +285,7 @@ Please provide:
 2. Key praises (if any, 2-3 bullet points)
 3. Brief summary
 
-Be concise, specific, and neutral in tone."""
+Be concise, specific."""
     
     full_prompt = system_prompt + "\n\n" + user_prompt
     response = llm.invoke(full_prompt)
